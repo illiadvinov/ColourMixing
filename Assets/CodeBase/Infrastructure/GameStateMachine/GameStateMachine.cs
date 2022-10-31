@@ -12,7 +12,8 @@ namespace CodeBase.Infrastructure.GameStateMachine
         private IState previousState;
 
         [Inject]
-        public void Construct([Inject(Id = "InitializeState")] IState initialize,
+        public void Construct(
+            [Inject(Id = "InitializeState")] IState initialize,
             [Inject(Id = "StartGameState")] IState start,
             [Inject(Id = "GamePlayState")] IState gamePlay,
             [Inject(Id = "NextLevelState")] IState nextLevel)
