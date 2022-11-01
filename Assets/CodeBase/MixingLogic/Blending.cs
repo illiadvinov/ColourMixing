@@ -30,13 +30,13 @@ namespace CodeBase.MixingLogic
         public void SubscribeToEvent()
         {
             eventReferer.OnMixedButtonClicked += StartBlending;
-            eventReferer.OnReset += Reset;
+            eventReferer.OnLevelReset += LevelReset;
         }
 
         public void UnSubscribeFromEvent() =>
             eventReferer.OnMixedButtonClicked -= StartBlending;
 
-        private void Reset() =>
+        private void LevelReset() =>
             waterParent.transform.DOScaleY(0, 1f);
 
         private void StartBlending()
@@ -53,15 +53,17 @@ namespace CodeBase.MixingLogic
                 count++;
             }
 
-            Color overallColor = new(r / count, g / count, b / count);
+            Color overallColor;
+            if (r == 0.0f && g == 0.0f && b == 0.0f)
+                overallColor = Color.white;
+            else
+                overallColor = new(r / count, g / count, b / count);
 
-            var stringRgba = ColorUtility.ToHtmlStringRGBA(overallColor);
-            ColorUtility.TryParseHtmlString('#' + stringRgba, out overallColor);
 
             Color.RGBToHSV(overallColor, out float overallH, out float overallS, out float overallV);
             Color.RGBToHSV(reference, out float referenceH, out float referenceS, out float referenceV);
 
-            var delta =
+            double delta =
                 Math.Sqrt(
                     Math.Pow(referenceH - overallH, 2) +
                     Math.Pow(referenceS - overallS, 2) +
@@ -80,12 +82,12 @@ namespace CodeBase.MixingLogic
             Debug.Log($"With formula {100 - CompareTwoColors(overallColor, reference) / 10}");
             //Color Difference calculation
             Debug.Log($"With HSV {100 - delta}");
-            UnSubscribeFromEvent();
+            //UnSubscribeFromEvent();
 
             tweenSequence.OnComplete(() =>
             {
                 eventReferer.BlendingFinished(result);
-                moveFoodToBlender.DestroyFoodInBlender();
+                //moveFoodToBlender.PrepareForNextLevel();
             });
         }
 

@@ -6,7 +6,7 @@ namespace CodeBase.Infrastructure.Events
     public class EventReferer
     {
         public event Action<GameObject> OnFoodClicked;
-        public event Action OnReset;
+        public event Action OnLevelReset;
         public event Action OnMixedButtonClicked;
         public event Action<int> OnBlendingFinished;
         public event Action OnButtonClick;
@@ -14,8 +14,8 @@ namespace CodeBase.Infrastructure.Events
         public void FoodClicked(GameObject gameObject) =>
             OnFoodClicked?.Invoke(gameObject);
 
-        public void Reset() =>
-            OnReset?.Invoke();
+        public void LevelReset() =>
+            OnLevelReset?.Invoke();
 
         public void StartBlending() =>
             OnMixedButtonClicked?.Invoke();

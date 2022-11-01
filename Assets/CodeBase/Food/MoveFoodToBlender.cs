@@ -11,8 +11,8 @@ namespace CodeBase.Food
     {
         private const uint maxAmountOfFood = 7;
 
-        public List<GameObject> foodList;
-        public List<GameObject> unfitFoodList;
+        public readonly List<GameObject> foodList;
+        private readonly List<GameObject> unfitFoodList;
 
         private readonly EventReferer eventReferer;
         private readonly Transform foodInBlenderPosition;
@@ -38,7 +38,7 @@ namespace CodeBase.Food
             unfitFoodList.Clear();
         }
 
-        public void DestroyFoodInBlender()
+        private void DestroyFoodInBlender()
         {
             foreach (GameObject food in foodList)
             {
@@ -69,7 +69,8 @@ namespace CodeBase.Food
         private void FoodAnimationToBlender(GameObject food)
         {
             food.transform.SetParent(foodInBlenderPosition);
-            food.transform.DOLocalJump(Vector3.zero, .2f, 1, 2f).SetEase(Ease.OutSine).OnComplete(() => food.GetComponent<Rigidbody>().isKinematic = false);
+            food.transform.DOLocalJump(Vector3.zero, .2f, 1, 2f).SetEase(Ease.OutSine)
+                .OnComplete(() => food.GetComponent<Rigidbody>().isKinematic = false);
         }
     }
 }

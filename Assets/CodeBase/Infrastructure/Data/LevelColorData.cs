@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using CodeBase.Food;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.Data
@@ -10,11 +8,4 @@ namespace CodeBase.Infrastructure.Data
     {
         public List<ColorFruits> colorFruitsList;
     }
-
-    [Serializable]
-    public class ColorFruits
-    {
-        public Color color;
-        public List<FoodIndex> foodIndexesToGetColor;
-    } 
 }

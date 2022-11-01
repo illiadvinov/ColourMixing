@@ -19,6 +19,8 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
         private readonly CopyClickedFood copyClickedFood;
         private readonly Blending blending;
         private readonly HeadOpener headOpener;
+        private readonly BlenderShaking blenderShaking;
+        private readonly MixPanelColorSet mixPanelColorSet;
 
         [Inject]
         public InitializeState(IStateMachine stateMachine,
@@ -27,7 +29,9 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
             MoveFoodToBlender moveFoodToBlender,
             CopyClickedFood copyClickedFood,
             Blending blending,
-            HeadOpener headOpener)
+            HeadOpener headOpener,
+            BlenderShaking blenderShaking,
+            MixPanelColorSet mixPanelColorSet)
         {
             this.stateMachine = stateMachine;
             this.foodPool = foodPool;
@@ -36,12 +40,13 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
             this.copyClickedFood = copyClickedFood;
             this.blending = blending;
             this.headOpener = headOpener;
+            this.blenderShaking = blenderShaking;
+            this.mixPanelColorSet = mixPanelColorSet;
         }
 
         public void Enter()
         {
-            foodPool.Initialize();
-            charactersPool.Initialize();
+            Initialize();
             EventSubscription();
             stateMachine.Enter<StartGameState>();
         }
@@ -50,12 +55,20 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
         {
         }
 
+        private void Initialize()
+        {
+            foodPool.Initialize();
+            charactersPool.Initialize();
+        }
+
         private void EventSubscription()
         {
             moveFoodToBlender.SubscribeToEvent();
             copyClickedFood.SubscribeToEvent();
             headOpener.SubscribeToEvent();
-            //blending.SubscribeToEvent();
+            blending.SubscribeToEvent();
+            blenderShaking.SubscribeToEvent();
+            mixPanelColorSet.SubscribeToEvent();
         }
     }
 }

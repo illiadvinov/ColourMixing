@@ -30,7 +30,6 @@ namespace CodeBase.Blender
             animator.SetBool(IsShaking, true);
             await UniTask.Delay(2000);
             animator.SetBool(IsShaking, false);
-            UnsubscribeFromEvent();
         }
     }
 }

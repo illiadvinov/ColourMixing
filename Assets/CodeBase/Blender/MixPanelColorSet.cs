@@ -20,20 +20,20 @@ namespace CodeBase.Blender
         public void SubscribeToEvent()
         {
             eventReferer.OnMixedButtonClicked += SetColorToRed;
-            eventReferer.OnReset += SetColorToGreen;
+            eventReferer.OnLevelReset += SetColorToGreen;
         }
 
-        public void UnsubscribeFromEvent() =>
+        public void UnsubscribeFromEvent()
+        {
             eventReferer.OnMixedButtonClicked -= SetColorToRed;
+            eventReferer.OnLevelReset -= SetColorToGreen;
+        }
 
         private void SetColorToGreen() =>
             SetColorAndEmission(Color.green);
 
-        private void SetColorToRed()
-        {
+        private void SetColorToRed() =>
             SetColorAndEmission(Color.red);
-            UnsubscribeFromEvent();
-        }
 
         private void SetColorAndEmission(Color color)
         {

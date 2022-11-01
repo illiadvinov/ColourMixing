@@ -72,16 +72,12 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
         public void Enter()
         {
             colliderCurtain.SetActive(false);
-            blenderShaking.SubscribeToEvent();
-            blending.SubscribeToEvent();
-            mixPanelColorSet.SubscribeToEvent();
-            eventReferer.Reset();
+            eventReferer.LevelReset();
             SetUpActiveFoodOnScene();
         }
 
         public void Exit()
         {
-            moveFoodToBlender.PrepareForNextLevel();
         }
 
         private void SetUpActiveFoodOnScene()
@@ -107,6 +103,8 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
 
         private void ResetFoodOnTable(int index)
         {
+            moveFoodToBlender.PrepareForNextLevel();
+
             Sequence sequence = DOTween.Sequence();
 
             for (int i = 0; i < foodPosition.childCount; i++)

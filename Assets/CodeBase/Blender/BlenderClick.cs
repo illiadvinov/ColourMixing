@@ -11,10 +11,17 @@ namespace CodeBase.Blender
         private LevelColorData levelColorData;
 
         [Inject]
-        public void Construct(EventReferer eventReferer) =>
+        public void Construct(EventReferer eventReferer)
+        {
             this.eventReferer = eventReferer;
+            this.eventReferer.OnLevelReset += () => gameObject.SetActive(true);
+            gameObject.SetActive(false);
+        }
 
-        private void OnMouseDown() =>
+        private void OnMouseDown()
+        {
             eventReferer.StartBlending();
+            gameObject.SetActive(false);
+        }
     }
 }
