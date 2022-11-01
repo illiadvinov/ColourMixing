@@ -8,6 +8,7 @@ using CodeBase.Infrastructure.Events;
 using CodeBase.Infrastructure.GameStateMachine;
 using CodeBase.Infrastructure.GameStateMachine.States;
 using CodeBase.MixingLogic;
+using CodeBase.UI;
 using UnityEngine;
 using Zenject;
 
@@ -38,7 +39,6 @@ namespace CodeBase.Infrastructure.Bootstrap
             BindStateMachine();
             BindResources();
             BindGameObjects();
-
         }
 
         private void BindGameObjects()
@@ -69,6 +69,8 @@ namespace CodeBase.Infrastructure.Bootstrap
             Container.Bind<MixPanelColorSet>().AsSingle();
             Container.Bind<HeadOpener>().AsSingle();
             Container.Bind<BlenderShaking>().AsSingle();
+            Container.Bind<FoodSetUp>().AsSingle();
+            Container.Bind<ButtonActivator>().AsSingle();
         }
 
         private void BindContainers()
