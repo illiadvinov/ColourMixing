@@ -38,9 +38,9 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
         {
             GameObject character = charactersPool.GetRandom();
             SetUpDrinkBubble(character);
-            ReparentCharacter(character);
-            await characterMovement.MoveCharacter(character);
-            CharacterStop(character).OnComplete(
+            characterMovement.ReparentCharacter(character);
+            await characterMovement.Move(character);
+            characterMovement.Stop(character).OnComplete(
                 () => drinkBubble.transform.DOScale(new Vector3(.35f, .35f, .35f), .5f)
                     .SetEase(Ease.OutCubic));
 
@@ -54,19 +54,6 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
             drinkBubble.transform.localRotation = new Quaternion(0, -180, 0, 0);
             drinkBubble.transform.localScale = Vector3.zero;
             drinkBubble.GetComponent<DrinkMaterialContainer>().Renderer.material.color = levelManager.GetNextLevelColor();
-        }
-
-        private Tween CharacterStop(GameObject character)
-        {
-            characterMovement.IdleCharacter(character);
-            return character.transform.DOBlendableLocalRotateBy(new Vector3(0, 90, 0), 1f);
-        }
-
-        private void ReparentCharacter(GameObject character)
-        {
-            character.transform.SetParent(characterMovementPosition.GetChild(0));
-            character.transform.localPosition = Vector3.zero;
-            character.transform.SetParent(characterMovementPosition.GetChild(1));
         }
 
         public void Exit()

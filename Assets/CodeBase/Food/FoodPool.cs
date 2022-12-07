@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using CodeBase.Infrastructure.Common.Factory;
 using CodeBase.Infrastructure.Events;
+using CodeBase.Infrastructure.Pool;
 using UnityEngine;
 using Zenject;
 
@@ -8,11 +9,15 @@ namespace CodeBase.Food
 {
     public class FoodPool : IFoodPool
     {
-        public List<GameObject> activeObjects { get; }
+        private const int TimeToRepeatStorage = 10;
+
+        private List<GameObject> activeObjects { get; }
         private readonly Transform foodContainer;
         private readonly EventReferer eventReferer;
         private readonly IGameFactory<GameObject[]> foodFactory;
-        private List<GameObject> objectsInPool;
+        private GameObject[] foodInstances;
+        private Stack<GameObject>[] objectsInPool;
+
 
         [Inject]
         public FoodPool([Inject(Id = "FoodContainer")] Transform foodContainer,
@@ -22,73 +27,77 @@ namespace CodeBase.Food
             this.foodContainer = foodContainer;
             this.eventReferer = eventReferer;
             foodFactory = new FoodFactory(assetProvider);
-            objectsInPool = new List<GameObject>();
             activeObjects = new List<GameObject>();
         }
 
 
         public void Initialize()
         {
-            int indexForFood = 0;
-
-            foreach (var foodInstance in foodFactory.CreateObject(foodContainer))
-            {
-                Add(foodInstance);
-                foodInstance.SetActive(true);
-                foodInstance.GetComponent<FoodInfoStorage>().Index = indexForFood;
-                foodInstance.AddComponent<ClickFood>().Construct(eventReferer);
-                indexForFood++;
-            }
+            foodInstances = foodFactory.CreateObject(foodContainer);
+            objectsInPool = new Stack<GameObject>[foodInstances.Length];
+            InitializeFoodPool();
         }
 
         public void Add(GameObject gameObject)
         {
+            gameObject.SetActive(false);
             gameObject.transform.SetParent(foodContainer);
             gameObject.transform.position = Vector3.zero;
 
-            objectsInPool.Add(gameObject);
+            objectsInPool[gameObject.GetComponent<FoodInfoStorage>().Index].Push(gameObject);
             if (activeObjects.Contains(gameObject))
                 activeObjects.Remove(gameObject);
         }
 
-        public GameObject GetRandom()
-        {
-            if (objectsInPool.Capacity <= 0)
-                return null;
-
-            var foodIndex = Random.Range(0, objectsInPool.Count);
-            GameObject tempFood = objectsInPool[foodIndex];
-            objectsInPool.Remove(tempFood);
-            activeObjects.Add(tempFood);
-
-            return tempFood;
-        }
-
         public GameObject GetSpecific(int foodIndex)
         {
-            foreach (GameObject food in objectsInPool)
-            {
-                if (food.GetComponent<FoodInfoStorage>().Index == foodIndex)
-                {
-                    objectsInPool.Remove(food);
-                    activeObjects.Add(food);
-                    return food;
-                }
-            }
+            if (objectsInPool[foodIndex].Count <= 0)
+                RefillSpecificFood(foodIndex);
 
-            return null;
+            GameObject food = objectsInPool[foodIndex].Pop();
+            activeObjects.Add(food);
+            food.SetActive(true);
+            return food;
         }
 
-        public void ChangeActiveObject(GameObject activeObject, GameObject poolObject)
+        public GameObject GetRandom()
         {
-            if (activeObjects.Contains(poolObject))
-                activeObjects[activeObjects.IndexOf(poolObject)] = activeObject;
+            if (objectsInPool.Length <= 0)
+                InitializeFoodPool();
+
+            int foodIndex = Random.Range(0, objectsInPool.Length);
+            return GetSpecific(foodIndex);
         }
 
-        // public GameObject GetActiveFood()
-        // {
-        //     var activeObject = activeObjects[0];
-        //     
-        // }
+        private void InitializeFoodPool()
+        {
+            int indexForFood = 0;
+            for (int i = 0; i < foodInstances.Length; i++)
+            {
+                GameObject food = foodInstances[i];
+                objectsInPool[i] ??= new Stack<GameObject>();
+
+                for (int j = 0; j < TimeToRepeatStorage; j++)
+                    CopyFood(food, indexForFood);
+
+                indexForFood++;
+            }
+        }
+
+        private void RefillSpecificFood(int index)
+        {
+            for (int i = 0; i < TimeToRepeatStorage; i++)
+                CopyFood(foodInstances[index], index);
+        }
+
+        private void CopyFood(GameObject foodReference, int indexForFood)
+        {
+            GameObject foodInstance = Object.Instantiate(foodReference, foodContainer);
+            foodInstance.name = foodInstance.name.Replace("(Clone)", "").Trim();
+
+            foodInstance.GetComponent<FoodInfoStorage>().Index = indexForFood;
+            foodInstance.AddComponent<ClickFood>().Construct(eventReferer);
+            Add(foodInstance);
+        }
     }
 }

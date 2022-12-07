@@ -69,7 +69,7 @@ namespace CodeBase.Food
         private void FoodAnimationToBlender(GameObject food)
         {
             food.transform.SetParent(foodInBlenderPosition);
-            food.transform.DOLocalJump(Vector3.zero, .2f, 1, 2f).SetEase(Ease.OutSine)
+            food.transform.DOLocalJump(Vector3.zero, .2f, 1, 1f).SetEase(Ease.OutSine)
                 .OnComplete(() => food.GetComponent<Rigidbody>().isKinematic = false);
         }
     }

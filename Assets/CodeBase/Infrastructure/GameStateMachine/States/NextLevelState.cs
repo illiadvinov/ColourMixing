@@ -34,7 +34,7 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
             character.transform.DOBlendableLocalRotateBy(new Vector3(0, -90, 0), 1f);
 
             character.transform.SetParent(characterMovementPosition.GetChild(2));
-            await characterMovement.MoveCharacter(character);
+            await characterMovement.Move(character);
             
             charactersPool.Add(character);
             stateMachine.Enter<StartGameState>();

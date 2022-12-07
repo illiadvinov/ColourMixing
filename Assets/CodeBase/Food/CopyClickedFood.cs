@@ -18,22 +18,18 @@ namespace CodeBase.Food
             this.foodPool = foodPool;
         }
 
-        public void SubscribeToEvent() => 
+        public void SubscribeToEvent() =>
             eventReferer.OnFoodClicked += CopyFood;
 
-        public void UnSubscribeFromEvent() => 
+        public void UnSubscribeFromEvent() =>
             eventReferer.OnFoodClicked -= CopyFood;
 
-        private async void CopyFood(GameObject food)
+        private void CopyFood(GameObject food)
         {
-            GameObject foodCopy = Object.Instantiate(food, food.transform.parent);
-            foodPool.ChangeActiveObject(foodCopy, food);
-            foodCopy.GetComponent<ClickFood>().Construct(eventReferer);
-            foodCopy.SetActive(false);
-            foodCopy.transform.position = new Vector3(0, -2, -.8f);
-            await UniTask.Delay(500);
-            foodCopy.SetActive(true);
-            foodCopy.transform.DOLocalJump(Vector3.zero, .5f, 1, 1f);
+            GameObject foodInPool = foodPool.GetSpecific(food.GetComponent<FoodInfoStorage>().Index);
+            foodInPool.transform.SetParent(food.transform.parent);
+            foodInPool.SetActive(true);
+            foodInPool.transform.DOLocalJump(Vector3.zero, .5f, 1, 1f);
         }
     }
 }

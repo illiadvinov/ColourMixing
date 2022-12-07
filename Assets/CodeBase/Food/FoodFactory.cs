@@ -15,6 +15,19 @@ namespace CodeBase.Food
             food = new Queue<GameObject>(assetProvider.LoadObjects<GameObject>("Food/Prefabs"));
         }
 
+        // public GameObject[] CreateObject(Transform parent = null)
+        // {
+        //     var foodCount = food.Count;
+        //     GameObject[] foodInstances = new GameObject[50];
+        //     var foodAsset = food.Dequeue();
+        //     for (var i = 0; i < 50; i++)
+        //     {
+        //         foodInstances[i] = Object.Instantiate(foodAsset, parent);
+        //     }
+        //
+        //     return foodInstances;
+        // }
+
         public GameObject[] CreateObject(Transform parent = null)
         {
             var foodCount = food.Count;
@@ -23,9 +36,15 @@ namespace CodeBase.Food
             {
                 var foodAsset = food.Dequeue();
                 foodInstances[i] = Object.Instantiate(foodAsset, parent);
+                foodInstances[i].name = foodInstances[i].name.Replace("(Clone)", "").Trim();
             }
 
             return foodInstances;
         }
     }
+
+    // public interface IFoodFactory<T, K> : IGameFactory<T>
+    // {
+    //     public void CreateB
+    // }
 }

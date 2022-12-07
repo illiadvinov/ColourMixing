@@ -17,16 +17,10 @@ namespace CodeBase.Infrastructure.GameStateMachine.States
         private readonly LevelManager.LevelManager levelManager;
         private readonly FoodSetUp foodSetUp;
         private readonly ButtonActivator buttonActivator;
-        private readonly ClickFood clickFood;
         private readonly EventReferer eventReferer;
         private readonly GameObject colliderCurtain;
-        private readonly List<Transform> foodPositionsOnTable;
 
         private bool isNextButton;
-        private readonly GameObject nextButton;
-        private readonly GameObject restartButton;
-        private readonly TMP_Text nextButtonTextResult;
-        private readonly TMP_Text restartButtonTextResult;
 
         [Inject]
         public GamePlayState(MoveFoodToBlender moveFoodToBlender,

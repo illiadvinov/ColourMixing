@@ -33,19 +33,18 @@ namespace CodeBase.Blender
 
         private async void MoveHead(GameObject food)
         {
-            if (!isOpen)
-            {
-                animationIsFinished = false;
-                isOpen = true;
-                blenderHead.transform.DOLocalMoveX(.18f, .5f);
-                await UniTask.Delay(4000);
-                animationIsFinished = true;
-            }
+            var c = new CancellationToken();
+            if (isOpen)
+                return;
+            isOpen = true;
+            blenderHead.transform.DOLocalMoveX(.18f, .5f);
+            await UniTask.Delay(4500, cancellationToken: c);
+            if (c.IsCancellationRequested)
+                return;
 
-            if (isOpen && animationIsFinished)
-            {
+            isOpen = false;
+            if (!isOpen)
                 CloseHead();
-            }
         }
 
         private void CloseHead()

@@ -51,10 +51,10 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
+  m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
@@ -2713,7 +2713,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3597
+  m_VersionIndex: 3609
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2828,7 +2828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239891159395368, guid: 91e43a60a5017b44e950c8af76db419a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.72082704
+      value: 0.716
       objectReference: {fileID: 0}
     - target: {fileID: 4239891159395368, guid: 91e43a60a5017b44e950c8af76db419a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2836,7 +2836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239891159395368, guid: 91e43a60a5017b44e950c8af76db419a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.08799883
+      value: -0.088
       objectReference: {fileID: 0}
     - target: {fileID: 4239891159395368, guid: 91e43a60a5017b44e950c8af76db419a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2877,7 +2877,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0342988ae7369764e89350e1d4b97669, type: 2}
+      objectReference: {fileID: 2100000, guid: ce15d2ee847010a4fa306a86b3f6449d, type: 2}
     - target: {fileID: 64657583964390048, guid: 91e43a60a5017b44e950c8af76db419a,
         type: 3}
       propertyPath: m_Enabled
