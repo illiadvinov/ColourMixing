@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5793282023742745081}
   - component: {fileID: 2385268462244188194}
   - component: {fileID: 5272400359659926338}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cabbage
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -14,12 +14,12 @@ GameObject:
   - component: {fileID: 8295276773645690570}
   - component: {fileID: 785289558673871516}
   - component: {fileID: 6953061423196717877}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: apple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &581210223484935575
 Transform:
@@ -66,7 +66,6 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 0e3d2a03ebddc934a8e5c06334cca054, type: 2}
   - {fileID: 2100000, guid: 5b2522661efbb734ba6154ff66fc4630, type: 2}
-  - {fileID: 2100000, guid: 0e3d2a03ebddc934a8e5c06334cca054, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
